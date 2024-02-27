@@ -11,6 +11,7 @@ export default class MainScene extends Phaser.Scene {
     private gameShield = false;
     private roundText?: Phaser.GameObjects.Text;
     private scoreText?: Phaser.GameObjects.Text;
+    private deathText?: Phaser.GameObjects.Text;
     private bombs?: Phaser.Physics.Arcade.Group;
     private shields?: Phaser.Physics.Arcade.Group;
     private gameOver = false;
@@ -34,7 +35,6 @@ export default class MainScene extends Phaser.Scene {
         this.platforms.create(750, 220, "ground");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
-        //this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -95,7 +95,6 @@ export default class MainScene extends Phaser.Scene {
             repeat: -1,
         });
 
-        // Play the animation
         this.coins.playAnimation("spin");
 
         this.physics.add.collider(this.coins, this.platforms);
@@ -153,6 +152,22 @@ export default class MainScene extends Phaser.Scene {
 
     private handleHitBomb() {
         if (!this.playerShield) {
+            this.deathText = this.add.text(255, 200, "Game Over!", {
+                fontSize: "50px",
+                color: "#FF0000",
+            });
+
+            var refreshButton = document.createElement("button");
+            refreshButton.textContent = "Play Again?";
+            refreshButton.style.position = "absolute";
+            refreshButton.style.top = "380px";
+            refreshButton.style.left = "665px";
+            document.body.appendChild(refreshButton);
+
+            // Add event listener for the refresh button
+            refreshButton.addEventListener("click", function () {
+                location.reload(); // Reloads the current page
+            });
             this.physics.pause();
             this.player?.setTint(0xff0000);
             this.player?.anims.play("turn");
