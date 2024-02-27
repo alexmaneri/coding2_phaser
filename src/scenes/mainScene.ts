@@ -146,7 +146,7 @@ export default class MainScene extends Phaser.Scene {
         const coin = s as Phaser.Physics.Arcade.Image;
         coin.disableBody(true, true);
         this.playerShield = true;
-        this.player?.setTint(0xadd8e6);
+        this.player?.setTint(0x0000ff);
         this.gameShield = false;
     }
 
